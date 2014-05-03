@@ -1,12 +1,14 @@
 from collections import defaultdict
 import random as rnd
 import math
+import pickle as cp
 
 class Grafo:
   """Classe que mantém coleções de pontos, arestas, e seus atributos, como posições,
        pesos, direção"""
 
-  def __init__(self):
+  def __init__(self,ident=0):
+    self.ident = ident
     self.pontos = set()
     self.pos_pontos = defaultdict()
     self.arestas = defaultdict(list)
@@ -69,3 +71,7 @@ class Grafo:
         de_ponto, para_ponto = rnd.sample(self.pontos,2)
         self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),10)
         self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),10)
+
+  def armazenar_grafo(self):
+    with open('D:\Dropbox\Trabalho de Conclusão de Curso\grafos_cmou\grafos_armazenados\grafo_'+str(self.ident)+'.p','wb') as arq:
+      cp.dump(self,arq,1)
