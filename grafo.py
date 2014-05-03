@@ -1,5 +1,5 @@
-from collections import *
-import random as rmd
+from collections import defaultdict
+import random as rnd
 import math
 
 class Grafo:
@@ -28,7 +28,7 @@ class Grafo:
     self.arestas[de_ponto].append(para_ponto)
     self.pesos[de_ponto,para_ponto] = peso
     self.num_arestas += 1
-    if rmd.randint(1,100) <= chance_dupla:
+    if rnd.randint(1,100) <= chance_dupla:
       self.arestas[para_ponto].append(de_ponto)
       self.pesos[para_ponto,de_ponto] = peso
       self.num_arestas += 1
@@ -36,6 +36,10 @@ class Grafo:
   def calc_distancia(self,de_ponto,para_ponto):
     """calcula distância das duas arestas passadas"""
     return math.sqrt(((self.pos_pontos[para_ponto][0]-self.pos_pontos[de_ponto][0])**2)+((self.pos_pontos[para_ponto][1]-self.pos_pontos[de_ponto][1])**2))
+
+  def calc_prev_peso(self,de_ponto,para_ponto):
+    """preve o custo entre os dois pontos passados"""
+    return self.calc_distancia(de_ponto,para_ponto)
 
   def calc_peso(self,de_ponto,para_ponto,velocidade=1):
     """calcula o peso baseado na distancia e velocidade passada"""
@@ -50,9 +54,9 @@ class Grafo:
     self.fra_ciclo = fra_ciclo
 
     for i in range(num_pontos//fra_ciclo):
-      self.add_ponto(i,rmd.uniform(0,self.max_x),rmd.uniform(0,self.max_y))
+      self.add_ponto(i,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
     lista_pontos = list(self.pontos)
-    rmd.shuffle(lista_pontos)
+    rnd.shuffle(lista_pontos)
     
     for i in range(len(lista_pontos)-1):
       self.add_aresta_de_para(lista_pontos[i],lista_pontos[i+1],self.calc_peso(lista_pontos[i],lista_pontos[i+1]),10)
@@ -61,7 +65,7 @@ class Grafo:
 
     if not ciclo:
       for ponto in range(num_pontos//fra_ciclo, num_pontos):
-        self.add_ponto(ponto,rmd.uniform(0,self.max_x),rmd.uniform(0,self.max_y))
-        de_ponto, para_ponto = rmd.sample(self.pontos,2)
+        self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
+        de_ponto, para_ponto = rnd.sample(self.pontos,2)
         self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),10)
         self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),10)
