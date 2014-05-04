@@ -125,4 +125,4 @@ def executar_coleta(num_iteracoes):
   """para passar mais facilmente para o profiler"""
   for i in range(num_iteracoes):
     for j in range(num_iteracoes):
-      executar_iteracao(10**(3+j),10**(3+i),10**(3+i),10,30)
+      executar_iteracao(10**(3+j),1000*(i+1),1000*(i+1),100,20)
