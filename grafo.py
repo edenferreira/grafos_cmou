@@ -1,7 +1,8 @@
 from collections import defaultdict
 import random as rnd
 import math
-import pickle as cp
+import pickle as pc
+import os
 
 class Grafo:
   """Classe que mantém coleções de pontos, arestas, e seus atributos, como posições,
@@ -74,6 +75,14 @@ class Grafo:
         self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),10)
         self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),10)
 
-  def armazenar_grafo(self):
-    with open('D:\Dropbox\Trabalho de Conclusão de Curso\grafos_cmou\grafos_armazenados\grafo_'+str(self.ident)+'.p','wb') as arq:
-      cp.dump(self,arq,4)
+  def armazenar_grafo(self,diretorio):
+    """cria diretorio passado caso ele não exista, e armazena o grafo com a identidade"""
+    if not os.path.exists(diretorio):
+      os.makedirs(diretorio)
+    with open(diretorio + '\\grafo_'+str(self.ident)+'.p','wb') as arq:
+      pc.dump(self,arq,4)
+  
+  def gerar_grafo_arquivo(self,path):
+    """gera grafo a partir de um grafo em arquivo .p"""
+    with open(path,'r') as arq:
+      self = pc.load(arq)
