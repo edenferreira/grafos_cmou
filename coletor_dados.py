@@ -74,7 +74,7 @@ def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance
   
   with open(path_arquivo,'a') as arq:
     for key, value in dados_execucao.items():
-      print(key.rjust(22), ' : ', value,file=arq)
+      print(key.rjust(23), ' : ', value,file=arq)
   return dados_execucao
   
 def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
@@ -117,7 +117,7 @@ def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
 
   with open(path_arquivo,'a') as arq:
     for key, value in dados.items():
-      print(key.rjust(22), ' : ', value,file=arq)
+      print(key.rjust(23), ' : ', value,file=arq)
 
   return dados
 
