@@ -30,6 +30,7 @@ def carregar_grafos():
     yield pc.load(path_grafo)
 
 def coletar_dados_algoritmos(grafo):
+  """cria e armazena um grafo, e daods quantitativos nao temporais do funcionamento dos algoritmos"""
   dados = OrderedDict()
   dados['ident_grafo'] = grafo.ident
   dados['num_pontos'] = len(grafo)
@@ -65,6 +66,7 @@ def coletar_dados_algoritmos(grafo):
   return dados
 
 def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance_dupla,path_arquivo):
+  """cria um grafo, executa os algoritmos e armazena resultados quantitativos não temporais"""
   grafo = gf.Grafo(ident)
   grafo.criar_grafo_aleatoriamente(num_pontos,max_x,max_y,fra_ciclo,False,chance_dupla)
 
@@ -72,10 +74,11 @@ def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance
   
   with open(path_arquivo,'a') as arq:
     for key, value in dados_execucao.items():
-      print(key.rjust(14), ' : ', value,file=arq)
+      print(key.rjust(22), ' : ', value,file=arq)
   return dados_execucao
   
-def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :   
+def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
+  """uma iteração completa, executando métodos para criar e armazenar grafos, e informções, todas, inclusives temporais"""
   ident = get_ident()
   
   import os.path
@@ -83,11 +86,11 @@ def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
   diretorio += '\\grafos_e_dados\\pontos_' + str(num_pontos) + '\\max_x_E_max_y_' + str(max_x) + '\\' + str(date.today())
   if not os.path.exists(diretorio):
     os.makedirs(diretorio)
-  path_arquivo = diretorio + '\\grafo_' + str(grafo.ident) + '.txt'
+  path_arquivo = diretorio + '\\grafo_' + str(ident) + '.txt'
 
   dados = OrderedDict()
-  
-  cpr.run('criar_grafo_executar_armazenar('+ident+','+str(10**(3+j))+','+str(10**(3+i))+','+str(10**(3+i))+','+fra_ciclo+','+chance_dupla+','+path_arquivo+')','profiler')
+  path_arquivo = path_arquivo.replace('\\','/')
+  cpr.run('criar_grafo_executar_armazenar('+str(ident)+','+str(num_pontos)+','+str(max_x)+','+str(max_y)+','+str(fra_ciclo)+','+str(chance_dupla)+',\''+path_arquivo+'\')','profiler')
   with open('status.txt','w') as arq:
     dados_crus = pst.Stats('profiler',stream=arq)
     dados_crus.strip_dirs().print_stats('(dijkstra)')
@@ -95,22 +98,26 @@ def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
   status = list()
   with open('status.txt','r') as arq:
     for linha in arq:
-      print(linha)
       if 'dijkstra' in linha:  
-        status.append(linha.split)
+        status.append(linha.split())
+    
   dados['tempo_execucao_dijkstra'] = status[1][4]
+  
+  with open('status.txt','w') as arq:
+    dados_crus = pst.Stats('profiler',stream=arq)
+    dados_crus.strip_dirs().print_stats('(a_star)')
 
   status = list()
   with open('status.txt','r') as arq:
     for linha in arq:
-      print(linha)
-      if 'a_star' in linha:  
-        status.append(linha.split)
+      if 'a_star' in linha:
+        status.append(linha.split())
+    
   dados['tempo_execucao_astar'] = status[1][4]
 
   with open(path_arquivo,'a') as arq:
     for key, value in dados.items():
-      print(key.rjust(14), ' : ', value,file=arq)
+      print(key.rjust(22), ' : ', value,file=arq)
 
   return dados
 
