@@ -22,7 +22,8 @@ def dijkstra(grafo,ponto_origem,ponto_destino):
   distancia = {}
   distancia_visitados = {}
   anterior = {}
-
+  num_passos = 0
+  
   ponto_atual = ponto_origem
   distancia[ponto_atual] = 0
   
@@ -41,11 +42,12 @@ def dijkstra(grafo,ponto_origem,ponto_destino):
     if ponto_atual == ponto_destino:
       break #encontrado destino
     ponto_atual = min(distancia, key=distancia.get)
+    num_passos += 1
     
   caminho = formatar_caminho(anterior,ponto_origem,ponto_destino)
   del nao_visitados,visitados,distancia,anterior  
   
-  return caminho, distancia_visitados[ponto_destino]
+  return caminho,distancia_visitados[ponto_destino],num_passos
 
 def a_star(grafo,ponto_origem,ponto_destino):
   """busca o menor caminho entre os os dois pontos passados num grafo
@@ -58,6 +60,7 @@ def a_star(grafo,ponto_origem,ponto_destino):
   distancia_prev_fronteira = {}
   distancia_visitados = {}
   anterior = {}
+  num_passos = 0
 
   ponto_atual = ponto_origem
   distancia[ponto_atual] = 0
@@ -84,8 +87,9 @@ def a_star(grafo,ponto_origem,ponto_destino):
       break #encontrado destino
 
     ponto_atual = min(distancia_prev_fronteira, key=distancia_prev_fronteira.get)
+    num_passos += 1
 
   caminho = formatar_caminho(anterior,ponto_origem,ponto_destino)
   del nao_visitados,visitados,distancia,anterior,distancia_prev_fronteira,distancia_prev
 
-  return caminho, distancia_visitados[ponto_destino]
+  return caminho,distancia_visitados[ponto_destino],num_passos
