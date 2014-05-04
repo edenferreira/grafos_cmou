@@ -89,19 +89,3 @@ def a_star(grafo,ponto_origem,ponto_destino):
   del nao_visitados,visitados,distancia,anterior,distancia_prev_fronteira,distancia_prev
 
   return caminho, distancia_visitados[ponto_destino]
-  
-def testar_validade():
-  grafo = gf.Grafo()
-  grafo.criar_grafo_aleatoriamente(1000,1000,1000)
-  origem, destino = rnd.sample(grafo.pontos,2)
-  print(grafo.pesos,file=open('grafos.txt','w'))
-  print(origem,destino,file=open('testar_validade.txt','w'))
-  caminho_d, distancia_d = dijkstra(grafo,origem,destino)
-  caminho_a, distancia_a = a_star(grafo,origem,destino)
-  return caminho_a == caminho_d, distancia_a, distancia_d
-
-def testar_validade_iteracoes(iteracoes):
-  for i in range(iteracoes):
-    if not testar_validade():
-      print("errado",i,file=open('errado.txt','w'))
-      break
