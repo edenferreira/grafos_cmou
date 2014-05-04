@@ -14,7 +14,7 @@ class Grafo:
     self.pos_pontos = defaultdict()
     self.arestas = defaultdict(list)
     self.arestas_chegando = defaultdict(list)
-    self.graus_total = defaultdict(int)
+    self.graus_totais = defaultdict(int)
     self.pesos = {}
     self.num_arestas = 0
 
@@ -29,8 +29,8 @@ class Grafo:
   def add_ponto_aleatorio(self,ponto):
     #variavel de controle para sempre achar um ponto
     cont = 0
-    de_ponto = min(self.graus_total, key=self.graus_total.get)
-    if self.graus_total[de_ponto] > 2:
+    de_ponto = min(self.graus_totais, key=self.graus_totais.get)
+    if self.graus_totais[de_ponto] > 2:
       de_ponto,para_ponto = rnd.sample(self.pontos,2)
     else:
       para_ponto = rnd.sample(self.pontos,1)[0]
@@ -50,26 +50,26 @@ class Grafo:
     """adiciona uma aresta saindo do ponto da esquerda para o ponto da direita
          com uma chance de adicionar uma na direção oposta se for passado o
          atributo"""
-    if de_ponto not in self.graus_total:
-      self.graus_total[de_ponto] = 1
+    if de_ponto not in self.graus_totais:
+      self.graus_totais[de_ponto] = 1
     else:
-      self.graus_total[de_ponto] += 1
-    if para_ponto not in self.graus_total:
-      self.graus_total[para_ponto] = 1
+      self.graus_totais[de_ponto] += 1
+    if para_ponto not in self.graus_totais:
+      self.graus_totais[para_ponto] = 1
     else:
-      self.graus_total[para_ponto] += 1
+      self.graus_totais[para_ponto] += 1
     
     self.arestas[de_ponto].append(para_ponto)
     self.arestas_chegando[para_ponto].append(de_ponto)
     self.pesos[de_ponto,para_ponto] = peso
     self.num_arestas += 1
     if rnd.randint(1,100) <= chance_dupla:
-      if de_ponto not in self.graus_total:
-        self.graus_total[de_ponto] = 1
+      if de_ponto not in self.graus_totais:
+        self.graus_totais[de_ponto] = 1
       else:
-        self.graus_total[de_ponto] += 1
-      if para_ponto not in self.graus_total:
-        self.graus_total[para_ponto] = 1
+        self.graus_totais[de_ponto] += 1
+      if para_ponto not in self.graus_totais:
+        self.graus_totais[para_ponto] = 1
       self.arestas[para_ponto].append(de_ponto)
       self.arestas_chegando[de_ponto].append(para_ponto)
       self.pesos[para_ponto,de_ponto] = peso

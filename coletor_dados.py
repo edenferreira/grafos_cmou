@@ -59,6 +59,7 @@ def coletar_dados_algoritmos(grafo):
   del caminho,distancia,num_passos
 
   #colocados no final do dicionário, para principais informações ficarem no início
+  dados['graus_totais'] = grafo.graus_total
   dados['pos_pontos'] = grafo.pos_pontos
   dados['arestas'] = grafo.arestas
   dados['pesos'] = grafo.pesos
