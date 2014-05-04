@@ -69,6 +69,8 @@ class Grafo:
       for ponto in range(num_pontos//fra_ciclo, num_pontos):
         self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
         de_ponto, para_ponto = rnd.sample(self.pontos,2)
+        while para_ponto == de_ponto:
+          para_ponto = rnd.sample(self.pontos,1)
         self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),10)
         self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),10)
 
