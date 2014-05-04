@@ -30,7 +30,7 @@ def carregar_grafos():
     yield pc.load(path_grafo)
 
 def coletar_dados_algoritmos(grafo):
-  """cria e armazena um grafo, e daods quantitativos nao temporais do funcionamento dos algoritmos"""
+  """cria e armazena um grafo, e dados quantitativos nao temporais do funcionamento dos algoritmos"""
   dados = OrderedDict()
   dados['ident_grafo'] = grafo.ident
   dados['num_pontos'] = len(grafo)
