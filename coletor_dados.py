@@ -120,6 +120,9 @@ def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
     for key, value in dados.items():
       print(key.rjust(23), ' : ', value,file=arq)
 
+  with open('paths_grafos.txt','a') as arq:
+    print(path_arquivo,file=arq)
+  
   return dados
 
 def executar_coleta(num_iteracoes):
