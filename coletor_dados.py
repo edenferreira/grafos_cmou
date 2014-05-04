@@ -35,7 +35,7 @@ def coletar_dados_algoritmos(grafo):
   dados['ident_grafo'] = grafo.ident
   dados['num_pontos'] = len(grafo)
   dados['num_arestas'] = grafo.num_arestas
-  dados['fracao_ciclo'] = grafo.fra_ciclo
+  dados['tamanho_ciclo'] = grafo.fra_ciclo
   dados['chance_dupla'] = grafo.chance_dupla
   dados['max_x'] = grafo.max_x
   dados['max_y'] = grafo.max_y
