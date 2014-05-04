@@ -5,6 +5,7 @@ import pickle as pc
 import random as rnd
 import cProfile as cpr
 import pstats as pst
+import statistics as sta
 from collections import OrderedDict
 
 def get_ident():
@@ -63,26 +64,58 @@ def coletar_dados_algoritmos(grafo):
 
   return dados
 
-def criar_grafo_executar_armazenar(num_pontos,max_x,max_y,fra_ciclo,chance_dupla):
-  grafo = gf.Grafo(get_ident())
+def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance_dupla,path_arquivo):
+  grafo = gf.Grafo(ident)
   grafo.criar_grafo_aleatoriamente(num_pontos,max_x,max_y,fra_ciclo,False,chance_dupla)
-  dados_execucao = coletar_dados_algoritmos(grafo)
-  diretorio = 'D:\\Dropbox\\Trabalho de Conclusão de Curso\\grafos_cmou'
-  diretorio += '\\grafos_e_dados\\pontos_' + str(num_pontos) + '\\max_x_E_max_y_' + str(max_x) + '\\' + str(date.today())
 
-  import os.path
-  if not os.path.exists(diretorio):
-      os.makedirs(diretorio)
+  dados_execucao = coletar_dados_algoritmos(grafo)
   
-  arquivo = diretorio + '\\grafo_' + str(grafo.ident) + '.txt'
-  with open(arquivo,'w') as arq:
+  with open(path_arquivo,'a') as arq:
     for key, value in dados_execucao.items():
       print(key.rjust(14), ' : ', value,file=arq)
   return dados_execucao
   
+def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :   
+  ident = get_ident()
+  
+  import os.path
+  diretorio  = 'D:\\Dropbox\\Trabalho de Conclusão de Curso\\grafos_cmou'
+  diretorio += '\\grafos_e_dados\\pontos_' + str(num_pontos) + '\\max_x_E_max_y_' + str(max_x) + '\\' + str(date.today())
+  if not os.path.exists(diretorio):
+    os.makedirs(diretorio)
+  path_arquivo = diretorio + '\\grafo_' + str(grafo.ident) + '.txt'
+
+  dados = OrderedDict()
+  
+  cpr.run('criar_grafo_executar_armazenar('+ident+','+str(10**(3+j))+','+str(10**(3+i))+','+str(10**(3+i))+','+fra_ciclo+','+chance_dupla+','+path_arquivo+')','profiler')
+  with open('status.txt','w') as arq:
+    dados_crus = pst.Stats('profiler',stream=arq)
+    dados_crus.strip_dirs().print_stats('(dijkstra)')
+
+  status = list()
+  with open('status.txt','r') as arq:
+    for linha in arq:
+      print(linha)
+      if 'dijkstra' in linha:  
+        status.append(linha.split)
+  dados['tempo_execucao_dijkstra'] = status[1][4]
+
+  status = list()
+  with open('status.txt','r') as arq:
+    for linha in arq:
+      print(linha)
+      if 'a_star' in linha:  
+        status.append(linha.split)
+  dados['tempo_execucao_astar'] = status[1][4]
+
+  with open(path_arquivo,'a') as arq:
+    for key, value in dados.items():
+      print(key.rjust(14), ' : ', value,file=arq)
+
+  return dados
 
 def executar_coleta(num_iteracoes):
   """para passar mais facilmente para o profiler"""
   for i in range(num_iteracoes):
     for j in range(num_iteracoes):
-      criar_grafo_executar_armazenar(10**(3+j),10**(3+i),10**(3+i),10,30)
+      executar_iteracao(10**(3+j),10**(3+i),10**(3+i),10,30)
