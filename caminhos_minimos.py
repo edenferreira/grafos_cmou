@@ -22,9 +22,6 @@ def dijkstra(grafo,ponto_origem,ponto_destino):
   distancia = {}
   distancia_visitados = {}
   anterior = {}
-  
-  for elemento in pontos:
-    distancia[elemento] = float('inf')
 
   ponto_atual = ponto_origem
   distancia[ponto_atual] = 0
@@ -32,7 +29,7 @@ def dijkstra(grafo,ponto_origem,ponto_destino):
   while nao_visitados:
     for para_ponto in grafo.arestas[ponto_atual]:
       if para_ponto not in visitados:
-       if distancia[para_ponto] > distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]:
+       if para_ponto not in distancia or distancia[para_ponto] > distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]:
          distancia[para_ponto] = distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]
          anterior[para_ponto] = ponto_atual
 
@@ -43,10 +40,12 @@ def dijkstra(grafo,ponto_origem,ponto_destino):
     
     if ponto_atual == ponto_destino:
       break #encontrado destino
-
     ponto_atual = min(distancia, key=distancia.get)
-
-  return formatar_caminho(anterior,ponto_origem,ponto_destino), distancia_visitados[ponto_destino]
+    
+  caminho = formatar_caminho(anterior,ponto_origem,ponto_destino)
+  del nao_visitados,visitados,distancia,anterior  
+  
+  return caminho, distancia_visitados[ponto_destino]
 
 def a_star(grafo,ponto_origem,ponto_destino):
   """busca o menor caminho entre os os dois pontos passados num grafo
@@ -59,20 +58,18 @@ def a_star(grafo,ponto_origem,ponto_destino):
   distancia_prev_fronteira = {}
   distancia_visitados = {}
   anterior = {}
-  
-  for elemento in pontos:
-    distancia[elemento] = float('inf')
-    distancia_prev[elemento] = grafo.calc_prev_peso(elemento,ponto_destino)
-    distancia_prev_fronteira[elemento] = float('inf')
 
   ponto_atual = ponto_origem
   distancia[ponto_atual] = 0
+  distancia_prev[ponto_atual] = grafo.calc_prev_peso(ponto_atual,ponto_destino)
   distancia_prev_fronteira[ponto_atual] = distancia_prev[ponto_atual]
   
   while nao_visitados:
+    distancia_prev[ponto_atual] = grafo.calc_prev_peso(ponto_atual,ponto_destino)
     for para_ponto in grafo.arestas[ponto_atual]:
+      distancia_prev[para_ponto] = grafo.calc_prev_peso(para_ponto,ponto_destino)
       if para_ponto not in visitados:
-       if distancia[para_ponto] > distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]:
+       if para_ponto not in distancia or distancia[para_ponto] > distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]:
          distancia[para_ponto] = distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto]
          distancia_prev_fronteira[para_ponto] = distancia[ponto_atual] + grafo.pesos[ponto_atual,para_ponto] + distancia_prev[para_ponto]
          anterior[para_ponto] = ponto_atual
@@ -88,7 +85,10 @@ def a_star(grafo,ponto_origem,ponto_destino):
 
     ponto_atual = min(distancia_prev_fronteira, key=distancia_prev_fronteira.get)
 
-  return formatar_caminho(anterior,ponto_origem,ponto_destino), distancia_visitados[ponto_destino]
+  caminho = formatar_caminho(anterior,ponto_origem,ponto_destino)
+  del nao_visitados,visitados,distancia,anterior,distancia_prev_fronteira,distancia_prev
+
+  return caminho, distancia_visitados[ponto_destino]
   
 def testar_validade():
   grafo = gf.Grafo()

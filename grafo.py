@@ -76,4 +76,4 @@ class Grafo:
 
   def armazenar_grafo(self):
     with open('D:\Dropbox\Trabalho de Conclusão de Curso\grafos_cmou\grafos_armazenados\grafo_'+str(self.ident)+'.p','wb') as arq:
-      cp.dump(self,arq,1)
+      cp.dump(self,arq,4)
