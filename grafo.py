@@ -30,7 +30,7 @@ class Grafo:
     #variavel de controle para sempre achar um ponto
     cont = 0
     de_ponto = min(self.graus_total, key=self.graus_total.get)
-    if self.graus_total[de_ponto] > 1:
+    if self.graus_total[de_ponto] > 2:
       de_ponto,para_ponto = rnd.sample(self.pontos,2)
     else:
       para_ponto = rnd.sample(self.pontos,1)[0]
