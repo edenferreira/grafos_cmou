@@ -48,13 +48,14 @@ class Grafo:
     """calcula o peso baseado na distancia e velocidade passada"""
     return self.calc_distancia(de_ponto,para_ponto) / velocidade
 
-  def criar_grafo_aleatoriamente(self,num_pontos,max_x,max_y,fra_ciclo=8,ciclo=False):
+  def criar_grafo_aleatoriamente(self,num_pontos,max_x,max_y,fra_ciclo=8,ciclo=False,chance_dupla=0):
     """cria um grafo aleatoriamente, baseado no número de pontos, tamanho do plano
          fração do grafo que será o ciclo gerador, e se o grafo é apenas um ciclo ou não"""
     self.max_x = max_x
     self.max_y = max_y
     self.ciclo = ciclo
     self.fra_ciclo = fra_ciclo
+    self.chance_dupla = chance_dupla
 
     for i in range(num_pontos//fra_ciclo):
       self.add_ponto(i,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
@@ -62,8 +63,8 @@ class Grafo:
     rnd.shuffle(lista_pontos)
     
     for i in range(len(lista_pontos)-1):
-      self.add_aresta_de_para(lista_pontos[i],lista_pontos[i+1],self.calc_peso(lista_pontos[i],lista_pontos[i+1]),10)
-    self.add_aresta_de_para(lista_pontos[-1],lista_pontos[0],self.calc_peso(lista_pontos[-1],lista_pontos[0]),10)
+      self.add_aresta_de_para(lista_pontos[i],lista_pontos[i+1],self.calc_peso(lista_pontos[i],lista_pontos[i+1]),self.chance_dupla)
+    self.add_aresta_de_para(lista_pontos[-1],lista_pontos[0],self.calc_peso(lista_pontos[-1],lista_pontos[0]),self.chance_dupla)
     del lista_pontos
 
     if not ciclo:
@@ -72,8 +73,8 @@ class Grafo:
         de_ponto, para_ponto = rnd.sample(self.pontos,2)
         while para_ponto == de_ponto:
           para_ponto = rnd.sample(self.pontos,1)
-        self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),10)
-        self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),10)
+        self.add_aresta_de_para(de_ponto,ponto,self.calc_peso(de_ponto,ponto),self.chance_dupla)
+        self.add_aresta_de_para(ponto,para_ponto,self.calc_peso(ponto,para_ponto),self.chance_dupla)
 
   def armazenar_grafo(self,diretorio):
     """cria diretorio passado caso ele não exista, e armazena o grafo com a identidade"""
