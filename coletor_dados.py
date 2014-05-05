@@ -67,10 +67,10 @@ def coletar_dados_algoritmos(grafo):
 
   return dados,dados_grafo
 
-def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance_dupla,path_arquivo):
+def criar_grafo_executar_armazenar(ident,num_pontos,max_p,path_arquivo):
   """cria um grafo, executa os algoritmos e armazena resultados quantitativos não temporais"""
   grafo = gf.Grafo(ident)
-  grafo.criar_grafo_aleatoriamente(num_pontos,max_x,max_y,fra_ciclo,False,chance_dupla)
+  grafo.criar_grafo_aleatoriamente(num_pontos,max_p)
 
   dados_execucao, dados_grafo = coletar_dados_algoritmos(grafo)
   path_info_grafo = path_arquivo.replace('.txt','.p')
@@ -83,21 +83,21 @@ def criar_grafo_executar_armazenar(ident,num_pontos,max_x,max_y,fra_ciclo,chance
       print(key.rjust(23), ' : ', value,file=arq)
   return dados_execucao
 
-def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
+def executar_iteracao(num_pontos,max_p) :
   """uma iteração completa, executando métodos para criar e armazenar grafos, e informções, todas, inclusives temporais"""
   ident = get_ident()
 
   import os.path
   diretorio  = os.path.dirname(os.path.realpath(__file__))
-  diretorio += '\\grafos_e_dados\\' + str(ident - (ident % 30)) + '\\pontos_' + str(num_pontos) + '\\max_x_E_max_y_' + str(max_x)
+  diretorio += '\\grafos_e_dados'
   diretorio = diretorio.replace('\\','/')
   if not os.path.exists(diretorio):
     os.makedirs(diretorio)
-  path_arquivo = diretorio + '\\grafo_' + str(ident) + '.txt'
+  path_arquivo = diretorio + '\\grafo_'+str(ident)+'num_pontos_' + str(num_pontos)+ 'max_p_'+str(max_p)+'.txt'
 
   dados = OrderedDict()
   path_arquivo = path_arquivo.replace('\\','/')
-  cpr.run('criar_grafo_executar_armazenar('+str(ident)+','+str(num_pontos)+','+str(max_x)+','+str(max_y)+','+str(fra_ciclo)+','+str(chance_dupla)+',\''+path_arquivo+'\')','profiler')
+  cpr.run('criar_grafo_executar_armazenar('+str(ident)+','+str(num_pontos)+','+str(max_p)+',\''+path_arquivo+'\')','profiler')
   with open('status.txt','w') as arq:
     dados_crus = pst.Stats('profiler',stream=arq)
     dados_crus.strip_dirs().print_stats('(dijkstra)')
@@ -130,6 +130,13 @@ def executar_iteracao(num_pontos,max_x,max_y,fra_ciclo,chance_dupla) :
     print(path_arquivo,file=arq)
 
   return dados
+
+def executar_grafo_algoritmos():
+    num_pontos = rnd.randint(1000000,2000000)
+    max_p = rnd.uniform(600,1000)
+    print('criando grafo com ',num_pontos,' pontos e tamanho lateral máximo',max_p)
+    executar_iteracao(num_pontos,max_p)
+    
 
 def executar_coleta(num_iteracoes):
   """para passar mais facilmente para o profiler"""

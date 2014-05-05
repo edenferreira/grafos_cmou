@@ -63,14 +63,15 @@ class Grafo:
 
     for i in range(self.fra_ciclo):
       self.add_ponto(i,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
-    lista_pontos = rnd.shuffle(list(self.pontos))
+    lista_pontos = list(self.pontos)
+    rnd.shuffle(lista_pontos)
     
     for i in range(len(lista_pontos)-1):
       self.add_aresta(lista_pontos[i],lista_pontos[i+1],self.calc_peso(lista_pontos[i],lista_pontos[i+1]),self.chance_dupla)
     self.add_aresta(lista_pontos[-1],lista_pontos[0],self.calc_peso(lista_pontos[-1],lista_pontos[0]),self.chance_dupla)
     del lista_pontos
 
-    if not ciclo:
+    if not self.ciclo:
       for ponto in range(self.fra_ciclo, num_pontos):
         self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
         de_ponto, para_ponto = rnd.sample(self.pontos,2)
