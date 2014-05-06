@@ -57,13 +57,14 @@ def coletar_dados_algoritmos(grafo):
   dados['distancia_a'] = distancia
   dados['num_passos_a'] = num_passos
   del caminho,distancia,num_passos
-
+  if(len(grafo) <= 10000):
   #colocados no final do dicionário, para principais informações ficarem no início
-  dados_grafo['ident_grafo'] = grafo.ident
-  dados_grafo['graus_totais'] = grafo.graus_totais
-  dados_grafo['pos_pontos'] = grafo.pos_pontos
-  dados_grafo['arestas'] = grafo.arestas
-  dados_grafo['pesos'] = grafo.pesos
+    dados_grafo['ident_grafo'] = grafo.ident
+    dados_grafo['pos_pontos'] = grafo.pos_pontos
+    dados_grafo['arestas'] = grafo.arestas
+    dados_grafo['pesos'] = grafo.pesos
+  else:
+    dados_grafos['grafo_muito_grande']
 
   return dados,dados_grafo
 
