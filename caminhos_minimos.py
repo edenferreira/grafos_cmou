@@ -68,15 +68,15 @@ class dijkstra:
       ponto_atual = self.buscar_proximo_ponto()
       self.num_passos += 1
     self.formatar_caminho()
+    self.distancia_total = self.distancia_visitados[self.ponto_destino]
     self.executou = True
 
 class a_star(dijkstra):
   
-  def __init__(self,grafo):    
+  def __init__(self,grafo):
     self.distancia_prev = {}
     self.distancia_prev_fronteira = {}
-    super(grafo)
-  
+    
   def deve_atualizar_distancia(self,ponto_atual,ponto_alvo):
     self.distancia[ponto_alvo] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,para_ponto]
     self.distancia_prev_fronteira[para_ponto] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,para_ponto] + distancia_prev[para_ponto]
