@@ -28,14 +28,12 @@ class Grafo:
   def add_aresta(self,de_ponto,para_ponto,peso,chance_dupla=0):
     """adiciona uma aresta saindo do ponto da esquerda para o ponto da direita
          com uma chance de adicionar uma na direção oposta se for passado o
-         atributo"""
-    
+         atributo"""    
     self.arestas[de_ponto].append(para_ponto)
     self.arestas_chegando[para_ponto].append(de_ponto)
     self.pesos[de_ponto,para_ponto] = peso
     self.num_arestas += 1
-    if rnd.randint(1,100) <= chance_dupla:
-      
+    if rnd.randint(1,100) <= chance_dupla:      
       self.arestas[para_ponto].append(de_ponto)
       self.arestas_chegando[de_ponto].append(para_ponto)
       self.pesos[para_ponto,de_ponto] = peso
