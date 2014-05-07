@@ -76,15 +76,16 @@ class a_star(dijkstra):
   def __init__(self,grafo):
     self.distancia_prev = {}
     self.distancia_prev_fronteira = {}
+    super(a_star,self).__init__(grafo)
     
-  def deve_atualizar_distancia(self,ponto_atual,ponto_alvo):
-    self.distancia[ponto_alvo] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,para_ponto]
-    self.distancia_prev_fronteira[para_ponto] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,para_ponto] + distancia_prev[para_ponto]
-    anterior[para_ponto] = ponto_atual
+  def atualizar_distancia(self,ponto_atual,ponto_alvo):
+    self.distancia[ponto_alvo] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,ponto_alvo]
+    self.distancia_prev_fronteira[ponto_alvo] = self.distancia[ponto_atual] + self.grafo.pesos[ponto_atual,ponto_alvo] + self.distancia_prev[ponto_alvo]
+    self.anterior[ponto_alvo] = ponto_atual
   
   def processar_arestas(self,ponto_atual):
     for ponto_alvo in self.grafo.arestas[ponto_atual]:
-      distancia_prev[para_ponto] = grafo.calc_prev_peso(para_ponto,ponto_destino)
+      self.distancia_prev[ponto_alvo] = self.grafo.calc_prev_peso(ponto_alvo,self.ponto_destino)
       self.visitar_ponto(ponto_atual,ponto_alvo)
   
   def processar_ponto(self,ponto_atual):
@@ -101,7 +102,8 @@ class a_star(dijkstra):
   
   def buscar_origem(self):
     self.distancia[self.ponto_origem] = 0
-    self.distancia_prev[self.ponto_origem] = self.grafo.calc_prev_peso(self.ponto_origem,ponto_destino)
+    self.distancia_prev[self.ponto_origem] = self.grafo.calc_prev_peso(self.ponto_origem,self.ponto_destino)
     self.distancia_prev_fronteira[self.ponto_origem] = self.distancia_prev[self.ponto_origem]
     return self.ponto_origem
     
+  
