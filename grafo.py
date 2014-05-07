@@ -68,7 +68,6 @@ class Grafo:
       self.add_aresta(lista_pontos[i],lista_pontos[i+1],self.calc_peso(lista_pontos[i],lista_pontos[i+1]),self.chance_dupla)
     self.add_aresta(lista_pontos[-1],lista_pontos[0],self.calc_peso(lista_pontos[-1],lista_pontos[0]),self.chance_dupla)
     del lista_pontos
-    print('saindo do ciclo começando grafo')
     if not self.ciclo:
       for ponto in range(self.fra_ciclo, num_pontos):
         self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
@@ -79,7 +78,6 @@ class Grafo:
         else:
           self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),self.chance_dupla)
           self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),self.chance_dupla)
-    print('grafo criado')
 
   def armazenar_grafo(self,diretorio):
     """cria diretorio passado caso ele não exista, e armazena o grafo com a identidade"""
