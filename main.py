@@ -1,4 +1,4 @@
 import os
 
-for i in range(10):
-  os.system('formatar_dados.py')
+for i in range(100):
+  os.system('python formatar_dados.py')
