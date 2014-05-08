@@ -41,7 +41,9 @@ class Grafo:
 
   def calc_distancia(self,de_ponto,para_ponto):
     """calcula distância das duas arestas passadas"""
-    return math.sqrt(((self.pos_pontos[para_ponto][0]-self.pos_pontos[de_ponto][0])**2)+((self.pos_pontos[para_ponto][1]-self.pos_pontos[de_ponto][1])**2))
+    cateto_1 = self.pos_pontos[para_ponto][0]-self.pos_pontos[de_ponto][0]
+    cateto_2 = self.pos_pontos[para_ponto][1]-self.pos_pontos[de_ponto][1]
+    return math.sqrt(((cateto_1)**2)+((cateto_2)**2))
 
   def calc_prev_peso(self,de_ponto,para_ponto):
     """preve o custo entre os dois pontos passados"""
@@ -71,7 +73,8 @@ class Grafo:
     if not self.ciclo:
       for ponto in range(self.fra_ciclo, num_pontos):
         self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
-        de_ponto, para_ponto = rnd.sample(self.pontos,2)
+        de_ponto = rnd.randrange(0,len(self),1)
+        para_ponto = rnd.randrange(0,len(self),1)
         if de_ponto == para_ponto:
           self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),0)
           self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),0)

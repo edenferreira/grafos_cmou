@@ -27,7 +27,7 @@ class conexao:
     con = sql.connect(self.banco)
     lista = self.get_lista_de_cursor(con.execute(comando_sql))
     con.close()
-    return lista
+    return lista[0][0]
 
   def criar_table_ident(self):
     comando_sql = """create table ident_grafo
@@ -53,11 +53,12 @@ class conexao:
     comando_sql = """create table informacao_dijkstra
                      (ponto_origem  integer          not null,
                       ponto_destino integer          not null,
-                      caminho       varchar(max) not nulll,
+                      caminho       text not null,
                       num_passos    integer          not null,
-                      tempo         float        not null,
-                      id            integer          not null.
-                      primary key(ponto_origem, ponto_destino)
+                      distancia_total float   not null,
+                      tempo         float            not null,
+                      id            integer          not null,
+                      primary key(ponto_origem, ponto_destino),
                       foreign key(id) references informacao_grafo(id));"""
     con = sql.connect(self.banco)
     con.execute(comando_sql)
@@ -68,11 +69,12 @@ class conexao:
     comando_sql = """create table informacao_astar
                      (ponto_origem  integer          not null,
                       ponto_destino integer          not null,
-                      caminho       varchar(max) not nulll,
+                      caminho       text not null,
                       num_passos    integer          not null,
+                      distancia_total float   not null,
                       tempo         float        not null,
-                      id            integer          not null.
-                      primary key(ponto_origem, ponto_destino)
+                      id            integer          not null,
+                      primary key(ponto_origem, ponto_destino),
                       foreign key(id) references informacao_grafo(id));"""
     con = sql.connect(self.banco)
     con.execute(comando_sql)
@@ -89,8 +91,8 @@ class conexao:
     print("Grafo inserido corretamente")
 
   def inserir_tabela_dijkstra(self,dados):
-    comando_sql = """insert into informacao_dijkstra(ponto_origem,ponto_destino,caminho,num_passos,tempo)
-                     values(?,?,?,?,?)"""
+    comando_sql = """insert into informacao_dijkstra(ponto_origem,ponto_destino,caminho,num_passos,distancia_total,tempo,id)
+                     values(?,?,?,?,?,?,?)"""
     con = sql.connect(self.banco)
     con.execute(comando_sql,dados)
     con.commit()
@@ -98,8 +100,8 @@ class conexao:
     print("Dados de dijkstra inseridos corretamente")
 
   def inserir_tabela_astar(self,dados):
-    comando_sql = """insert into informacao_astar(ponto_origem,ponto_destino,caminho,num_passos,tempo)
-                     values(?,?,?,?,?)"""
+    comando_sql = """insert into informacao_astar(ponto_origem,ponto_destino,caminho,num_passos,distancia_total,tempo,id)
+                     values(?,?,?,?,?,?,?)"""
     con = sql.connect(self.banco)
     con.execute(comando_sql,dados)
     con.commit()
@@ -131,7 +133,7 @@ class conexao:
     return lista
 
   def get_tempos_dijkstra(self):
-    comando_sql = """select g.id, g.num_pontos, g.num_arestas, d.ponto_origem, d.ponto_destino, d.caminho, d.num_passos, d.tempo
+    comando_sql = """select g.id, g.num_pontos, g.num_arestas, d.ponto_origem, d.ponto_destino, d.caminho, d.num_passos, d.distancia_total, d.tempo
                        from informacao_grafo g,
                             informacao_dijkstra d
                       where g.id = d.id;"""
@@ -141,7 +143,7 @@ class conexao:
     return lista
 
   def get_tempos_astar(self):
-    comando_sql = """select g.id, g.num_pontos, g.num_arestas, a.ponto_origem, a.ponto_destino, a.caminho, a.num_passos, a.tempo
+    comando_sql = """select g.id, g.num_pontos, g.num_arestas, a.ponto_origem, a.ponto_destino, a.caminho, a.num_passos, a.distancia_total, a.tempo
                        from informacao_grafo g,
                             informacao_astar a
                       where g.id = a.id;"""
