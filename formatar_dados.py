@@ -28,7 +28,7 @@ dados_grafo = OrderedDict()
 
 con = conexao()
 grafo = Grafo(con.get_ident())
-grafo.criar_grafo_aleatoriamente(100000,1000)
+grafo.criar_grafo_aleatoriamente(rnd.randint(1000000,2000000),rnd.randint(800,1000))
 dados_grafo['id'] = grafo.ident
 dados_grafo['num_pontos'] = len(grafo)
 dados_grafo['num_arestas'] = grafo.num_arestas
