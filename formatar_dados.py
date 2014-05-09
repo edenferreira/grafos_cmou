@@ -28,7 +28,494 @@ dados_grafo = OrderedDict()
 
 con = conexao()
 grafo = Grafo(con.get_ident())
-grafo.criar_grafo_aleatoriamente(rnd.randint(1000000,2000000),rnd.randint(800,1000))
+grafo.criar_grafo_aleatoriamente(100000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(200000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(300000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(400000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(500000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(600000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(700000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(800000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(900000,rnd.randint(800,1000))
+dados_grafo['id'] = grafo.ident
+dados_grafo['num_pontos'] = len(grafo)
+dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_ponto'] = grafo.max_x
+conexao().inserir_grafo(grafo)
+
+origem = rnd.randrange(0,len(grafo),1)
+destino = rnd.randrange(0,len(grafo),1)
+dados_dij['ponto_origem'] = origem
+dados_dij['ponto_destino'] = destino
+dados_ast['ponto_origem'] = origem
+dados_ast['ponto_destino'] = destino
+
+dij = Caminho_Minimo(grafo,a_star=False)
+dij.definir_origem_destino(origem,destino)
+ast = Caminho_Minimo(grafo,a_star=True)
+ast.definir_origem_destino(origem,destino)
+pf.run('dij.executar()','profiler')  
+dados_dij['caminho'] = str(dij.caminho)
+dados_dij['num_passos'] = dij.num_passos
+dados_dij['distancia_total'] = dij.distancia_total
+dados_dij['tempo'] = extrair_tempo('profiler')
+dados_dij['id'] = dij.grafo.ident
+
+pf.run('ast.executar()','profiler')  
+dados_ast['caminho'] = str(ast.caminho)
+dados_ast['num_passos'] = ast.num_passos
+dados_ast['distancia_total'] = ast.distancia_total
+dados_ast['tempo'] = extrair_tempo('profiler')
+dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
+
+with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
+  print('dados_grafo: ',end=' ',file=arq)
+  for elemento,value in dados_grafo.items():
+    print(elemento,':',value,file=arq)
+  print('dados_dij: ',end=' ',file=arq)
+  for elemento,value in dados_dij.items():
+    print(elemento,':',value,file=arq)
+  print('dados_ast: ',end=' ',file=arq)
+  for elemento,value in dados_ast.items():
+    print(elemento,':',value,file=arq)
+  print('-----------')
+  
+
+dados_dij = OrderedDict()
+dados_ast = OrderedDict()
+dados_grafo = OrderedDict()
+
+con = conexao()
+grafo = Grafo(con.get_ident())
+grafo.criar_grafo_aleatoriamente(1000000,rnd.randint(800,1000))
 dados_grafo['id'] = grafo.ident
 dados_grafo['num_pontos'] = len(grafo)
 dados_grafo['num_arestas'] = grafo.num_arestas
