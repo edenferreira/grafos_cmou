@@ -1,7 +1,10 @@
+from random import uniform
 from pprint import pprint
 
 
 def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x, max_y,distancia_min):
+  if grid_x > 1400 or grid_y > 1400:
+      """faça algo"""
   fracao_x = max_x  / grid_x
   fracao_y = max_y / grid_y
 
@@ -26,51 +29,30 @@ def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x, max_y,distancia_min):
     y_2 += fracao_y
 
   pos_pontos = {}
-tamanho_total = 1000
-tam_espaco = tamanho_total/1000
 
-tam_min = 0.02
-tam_max = tam_espaco-tam_min
-print(tam_min,tam_max)
+  for key_x,x in o_x.items():
+    for key_y,y in p_y.items():
+      self.add_ponto((key_x*1000000)+key_y,uniform(x[0],x[1]),uniform(y[0],y[1]))
 
-x_1 = tam_min
-x_2 = tam_max
-y_1 = tam_min
-y_2 = tam_max
-p_x = {}
-p_y = {}
-for i in range(1000):
-  p_x[i] = (x_1,x_2)
-  x_1 += tam_espaco
-  x_2 += tam_espaco
-for i in range(1000):
-  p_y[i] = (y_1,y_2)
-  y_1 += tam_espaco
-  y_2 += tam_espaco
-
-pos_pontos = {}
-
-from random import uniform
-
-for key_x, x in p_x.items():
-  for key_y, y in p_y.items():
-    pos_pontos[(key_x*1000)+key_y] = (uniform(x[0],x[1]),uniform(y[0],y[1]))
-
-
-with open('pos_pontos.txt','w') as arq:
-  pprint(pos_pontos,stream=arq)
-
-from grafo import *
-
-grafo = Grafo(0)
-for key,value in pos_pontos.items():
-  grafo.add_ponto(key,value[0],value[1])
+  for i in range(grid_x - 1):
+    for j in range(grid_y - 1):
+      ponto_atual = (i*1000000)+j
+      ponto_direita = (i*1000000)+j+1
+      ponto_abaixo = ((i+1)*1000000)+j
+    if (i/1000000) % 2 == 0:
+      grafo.add_aresta(ponto_atual,ponto_direita,grafo.calc_distancia(ponto_atual,ponto_direita),20)
+    else:
+      grafo.add_aresta(ponto_direita,ponto_atual,grafo.calc_distancia(ponto_direita,ponto_atual),20)
+    if j % 2 == 0:
+      grafo.add_aresta(ponto_abaixo,ponto_atual,grafo.calc_distancia(ponto_abaixo,ponto_atual),20)
+    else:
+      grafo.add_aresta(ponto_atual,ponto_abaixo,grafo.calc_distancia(ponto_atual,ponto_abaixo),20)
 
 for i in range(999):
   for j in range(999):
-    ponto_atual = (i*1000)+j
-    ponto_direita = (i*1000)+j+1
-    ponto_abaixo = ((i+1)*1000)+j
+    ponto_atual = (i*1000000)+j
+    ponto_direita = (i*1000000)+j+1
+    ponto_abaixo = ((i+1)*1000000)+j
     if (i/1000) % 2 == 0:
       grafo.add_aresta(ponto_atual,ponto_direita,grafo.calc_distancia(ponto_atual,ponto_direita),10)
     else:

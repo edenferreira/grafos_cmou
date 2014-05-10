@@ -1,3 +1,4 @@
+from pprint import pprint
 from collections import defaultdict
 import random as rnd
 import math
@@ -81,6 +82,51 @@ class Grafo:
         else:
           self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),self.chance_dupla)
           self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),self.chance_dupla)
+  
+  def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x, max_y,distancia_min):
+    if grid_x > 1400 or grid_y > 1400:
+      pass
+    fracao_x = max_x  / grid_x
+    fracao_y = max_y / grid_y
+
+    tam_min_x = distancia_min / 2
+    tam_max_x = fracao_x - tam_min_x
+    tam_min_y = distancia_min / 2
+    tam_max_y = fracao_y - tam_min_y
+
+    x_1 = tam_min_x
+    x_2 = tam_max_x
+    y_1 = tam_min_y
+    y_2 = tam_max_y
+    p_x = {}
+    p_y = {}
+    for i in range(grid_x):
+      p_x[i] = (x_1,x_2)
+      x_1 += fracao_x
+      x_2 += fracao_x
+    for i in range(grid_y):
+      p_y[i]  = (y_1,y_2)
+      y_1 += fracao_y
+      y_2 += fracao_y
+
+    for key_x,x in p_x.items():
+      for key_y,y in p_y.items():
+        self.add_ponto((key_x*1000000)+key_y,rnd.uniform(x[0],x[1]),rnd.uniform(y[0],y[1]))
+
+    for i in range(grid_x - 1):
+      for j in range(grid_y - 1):
+        ponto_atual = (i*1000000)+j
+        ponto_direita = (i*1000000)+j+1
+        ponto_abaixo = ((i+1)*1000000)+j        
+        #print(i,j,ponto_atual,ponto_direita,ponto_abaixo)
+        if (i/1000000) % 2 == 0:
+          self.add_aresta(ponto_atual,ponto_direita,self.calc_distancia(ponto_atual,ponto_direita),20)
+        else:
+          self.add_aresta(ponto_direita,ponto_atual,self.calc_distancia(ponto_direita,ponto_atual),20)
+        if j % 2 == 0:
+          self.add_aresta(ponto_abaixo,ponto_atual,self.calc_distancia(ponto_abaixo,ponto_atual),20)
+        else:
+          self.add_aresta(ponto_atual,ponto_abaixo,self.calc_distancia(ponto_atual,ponto_abaixo),20)
 
   def armazenar_grafo(self,diretorio):
     """cria diretorio passado caso ele não exista, e armazena o grafo com a identidade"""
