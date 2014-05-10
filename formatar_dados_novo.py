@@ -1,3 +1,4 @@
+from math import sqrt
 from caminhos_minimos import *
 from grafo import *
 from banco_dados import *
@@ -32,6 +33,8 @@ grafo.criar_aleatoriamente_cidade(rnd.randint(1000,1500),rnd.randint(1000,1500),
 dados_grafo['id'] = grafo.ident
 dados_grafo['num_pontos'] = len(grafo)
 dados_grafo['num_arestas'] = grafo.num_arestas
+dados_grafo['max_pontos'] = sqrt(((grafo.max_x)**2) + ((grafo.max_y)**2))
+conexao().inserir_grafo(grafo)
 
 origem, destino = rnd.sample(grafo.pontos,2)
 #origem = rnd.randrange(0,len(grafo),1)
@@ -58,6 +61,9 @@ dados_ast['num_passos'] = ast.num_passos
 dados_ast['distancia_total'] = ast.distancia_total
 dados_ast['tempo'] = extrair_tempo('profiler')
 dados_ast['id'] = ast.grafo.ident
+
+conexao().inserir_tabela_dijkstra((dados_dij['ponto_origem'],dados_dij['ponto_destino'],dados_dij['caminho'],dados_dij['num_passos'],dados_dij['distancia_total'],dados_dij['tempo'],grafo.ident))
+conexao().inserir_tabela_astar((dados_ast['ponto_origem'],dados_ast['ponto_destino'],dados_ast['caminho'],dados_ast['num_passos'],dados_ast['distancia_total'],dados_ast['tempo'],grafo.ident))
 
 with open('D:/Dropbox/Trabalho de Conclusão de Curso/grafos_cmou/resultado_teste.txt','a') as arq:
   print('dados_grafo: ',end=' ',file=arq)
