@@ -83,12 +83,15 @@ class Grafo:
           self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),self.chance_dupla)
           self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),self.chance_dupla)
   
-  def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x, max_y,distancia_min):
+  def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x,max_y,distancia_min):
     if grid_x > 1400 or grid_y > 1400:
       pass
     fracao_x = max_x  / grid_x
     fracao_y = max_y / grid_y
-
+    
+    self.max_x = max_x
+    self.max_y = max_y
+    
     tam_min_x = distancia_min / 2
     tam_max_x = fracao_x - tam_min_x
     tam_min_y = distancia_min / 2
