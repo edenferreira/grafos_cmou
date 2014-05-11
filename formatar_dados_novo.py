@@ -37,8 +37,6 @@ dados_grafo['max_pontos'] = sqrt(((grafo.max_x)**2) + ((grafo.max_y)**2))
 conexao().inserir_grafo(grafo)
 
 origem, destino = rnd.sample(grafo.pontos,2)
-#origem = rnd.randrange(0,len(grafo),1)
-#destino = rnd.randrange(0,len(grafo),1)
 dados_dij['ponto_origem'] = origem
 dados_dij['ponto_destino'] = destino
 dados_ast['ponto_origem'] = origem

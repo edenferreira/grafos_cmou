@@ -1,4 +1,3 @@
-from pprint import pprint
 from collections import defaultdict
 import random as rnd
 import math
@@ -6,8 +5,7 @@ import pickle as pc
 import os
 
 class Grafo:
-  """Classe que mantém coleções de pontos, arestas, e seus atributos, como posições,
-       pesos, direção"""
+  """Classe que mantém coleções de pontos, arestas, e seus atributos, como posições, pesos, direção"""
 
   def __init__(self,ident=0):
     self.ident = ident
@@ -26,33 +24,33 @@ class Grafo:
     self.pontos.add(ponto)
     self.pos_pontos[ponto] = (pos_x,pos_y)
   
-  def add_aresta(self,de_ponto,para_ponto,peso,chance_dupla=0):
+  def add_aresta(self,ponto_origem,ponto_destino,peso,chance_dupla=0):
     """adiciona uma aresta saindo do ponto da esquerda para o ponto da direita
-         com uma chance de adicionar uma na direção oposta se for passado o
-         atributo"""    
-    self.arestas[de_ponto].append(para_ponto)
-    self.arestas_chegando[para_ponto].append(de_ponto)
-    self.pesos[de_ponto,para_ponto] = peso
+         com uma chance de adicionar uma na direção oposta se for passado o atributo chance_dupla"""    
+    self.arestas[ponto_origem].append(ponto_destino)
+    self.arestas_chegando[ponto_destino].append(ponto_origem)
+    self.pesos[ponto_origem,ponto_destino] = peso
     self.num_arestas += 1
-    if rnd.randint(1,100) <= chance_dupla:      
-      self.arestas[para_ponto].append(de_ponto)
-      self.arestas_chegando[de_ponto].append(para_ponto)
-      self.pesos[para_ponto,de_ponto] = peso
+    
+    if rnd.randint(1,100) <= chance_dupla:
+      self.arestas[ponto_destino].append(ponto_origem)
+      self.arestas_chegando[ponto_origem].append(ponto_destino)
+      self.pesos[ponto_destino,ponto_origem] = peso
       self.num_arestas += 1
 
-  def calc_distancia(self,de_ponto,para_ponto):
+  def calc_distancia(self,ponto_origem,ponto_destino):
     """calcula distância das duas arestas passadas"""
-    cateto_1 = self.pos_pontos[para_ponto][0]-self.pos_pontos[de_ponto][0]
-    cateto_2 = self.pos_pontos[para_ponto][1]-self.pos_pontos[de_ponto][1]
+    cateto_1 = self.pos_pontos[ponto_destino][0]-self.pos_pontos[ponto_origem][0]
+    cateto_2 = self.pos_pontos[ponto_destino][1]-self.pos_pontos[ponto_origem][1]
     return math.sqrt(((cateto_1)**2)+((cateto_2)**2))
 
-  def calc_prev_peso(self,de_ponto,para_ponto):
+  def calc_previsao_peso(self,ponto_origem,ponto_destino):
     """preve o custo entre os dois pontos passados"""
-    return self.calc_distancia(de_ponto,para_ponto)
+    return self.calc_distancia(ponto_origem,ponto_destino)
 
-  def calc_peso(self,de_ponto,para_ponto,velocidade=1):
+  def calc_peso(self,ponto_origem,ponto_destino,velocidade=1):
     """calcula o peso baseado na distancia e velocidade passada"""
-    return self.calc_distancia(de_ponto,para_ponto) / velocidade
+    return self.calc_distancia(ponto_origem,ponto_destino) / velocidade
 
   def criar_grafo_aleatoriamente(self,num_pontos,max_p):
     """cria um grafo aleatoriamente, baseado no número de pontos, tamanho do ciclo gerador, e se o grafo é apenas um ciclo ou não"""
@@ -74,14 +72,14 @@ class Grafo:
     if not self.ciclo:
       for ponto in range(self.fra_ciclo, num_pontos):
         self.add_ponto(ponto,rnd.uniform(0,self.max_x),rnd.uniform(0,self.max_y))
-        de_ponto = rnd.randrange(0,len(self),1)
-        para_ponto = rnd.randrange(0,len(self),1)
-        if de_ponto == para_ponto:
-          self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),0)
-          self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),0)
+        ponto_origem = rnd.randrange(0,len(self),1)
+        ponto_destino = rnd.randrange(0,len(self),1)
+        if ponto_origem == ponto_destino:
+          self.add_aresta(ponto_origem,ponto,self.calc_peso(ponto_origem,ponto),0)
+          self.add_aresta(ponto,ponto_destino,self.calc_peso(ponto,ponto_destino),0)
         else:
-          self.add_aresta(de_ponto,ponto,self.calc_peso(de_ponto,ponto),self.chance_dupla)
-          self.add_aresta(ponto,para_ponto,self.calc_peso(ponto,para_ponto),self.chance_dupla)
+          self.add_aresta(ponto_origem,ponto,self.calc_peso(ponto_origem,ponto),self.chance_dupla)
+          self.add_aresta(ponto,ponto_destino,self.calc_peso(ponto,ponto_destino),self.chance_dupla)
   
   def criar_aleatoriamente_cidade(self,grid_x,grid_y,max_x,max_y,distancia_min):
     if grid_x > 1400 or grid_y > 1400:

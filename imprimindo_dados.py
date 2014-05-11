@@ -1,7 +1,8 @@
 from banco_dados import *
-                            
-d = conexao().get_tempos_dijkstra_sem_caminho()
-a =  conexao().get_tempos_astar_sem_caminho()
+
+conexao = Conexao()
+d = conexao.get_tempos_dijkstra()
+a = conexao.get_tempos_astar()
 
 with open('dicionario_dados.txt','w') as arq:
   print('Tempos dos Algoritmos',file=arq)

@@ -207,10 +207,10 @@ class conexao:
       dicionario_dados['distancia_total'].append(linha[6])
       dicionario_dados['tempo'].append(linha[7])
     con.close()
-    return dicionario_dados
-  
-  def get_lista_de_cursor(self,cursor):
-    lista = list()
-    for elemento in cursor:
-      lista.append(elemento)
-    return lista
+      return dicionario_dados
+    
+    def get_lista_de_cursor(self,cursor):
+      lista = list()
+      for elemento in cursor:
+        lista.append(elemento)
+      return lista
